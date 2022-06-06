@@ -12,22 +12,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Entity		// Informa que essa será uma entidade do banco relacional
-@Table(name = "tb_order")		// Cria a tabela utilizando o nome citado "tb_order"
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity // Informa que essa será uma entidade do banco relacional
+@Table(name = "tb_order") // Cria a tabela utilizando o nome citado "tb_order"
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id		// informa que a variável abaixo será a chave primária no banco de dados
-	@GeneratedValue(strategy = GenerationType.IDENTITY)		//Atribui a responsabilidade ao provedor
+
+	@Id // informa que a variável abaixo será a chave primária no banco de dados
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Atribui a responsabilidade ao provedor
 	private Long id;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant moment;
-	
-	@ManyToOne		// instrui a JPA que essa será uma associação de muitos para um
-	@JoinColumn(name = "client_id")		//o nome da chave estrangeira no banco de dados
+
+	@ManyToOne // instrui a JPA que essa será uma associação de muitos para um
+	@JoinColumn(name = "client_id") // o nome da chave estrangeira no banco de dados
 	private User client;
-	
+
 	public Order() {
-		
+
 	}
 
 	public Order(Long id, Instant moment, User client) {
@@ -82,7 +87,5 @@ public class Order implements Serializable {
 	public String toString() {
 		return "Order [id=" + id + ", moment=" + moment + ", client=" + client + "]";
 	}
-	
-	
-	
+
 }

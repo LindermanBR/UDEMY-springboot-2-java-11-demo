@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity // Informa que essa será uma entidade do banco relacional
 @Table(name = "tb_user") // Cria a tabela utilizando o nome citado "tb_user"
 public class User implements Serializable {
@@ -25,8 +27,8 @@ public class User implements Serializable {
 	private String phone;
 	private String password;
 
-	// instrui a JPA que essa será uma associação de um para muitos
-	@OneToMany(mappedBy = "client") // E que a atribuição está mapeada com esse nome "client"
+	@JsonIgnore // Usado para evitar looping infinito quando a ordem é chamada impede que os clientes sejam chamados junto
+	@OneToMany(mappedBy = "client") //instrui a JPA que essa será uma associação de um para muitos E que a atribuição está mapeada com esse nome "client"
 	private List<Order> orders = new ArrayList<>();
 
 	public User() {
