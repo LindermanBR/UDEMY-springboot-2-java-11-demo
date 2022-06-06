@@ -1,27 +1,34 @@
 package com.requiemdev.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "users")
-public class User implements Serializable{
+@Entity // Informa que essa será uma entidade do banco relacional
+@Table(name = "tb_user") // Cria a tabela utilizando o nome citado "tb_user"
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id // informa que a variável abaixo será a chave primária no banco de dados
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Atribui a responsabilidade ao provedor
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
-	
+
+	// instrui a JPA que essa será uma associação de um para muitos
+	@OneToMany(mappedBy = "client") // E que a atribuição está mapeada com esse nome "client"
+	private List<Order> orders = new ArrayList<>();
+
 	public User() {
 	}
 
@@ -73,6 +80,10 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
+	public List<Order> getOrders() {
+		return this.orders;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -95,6 +106,5 @@ public class User implements Serializable{
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password
 				+ "]";
 	}
-	
-	
+
 }
