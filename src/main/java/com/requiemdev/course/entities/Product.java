@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product")
@@ -25,7 +27,10 @@ public class Product implements Serializable {
 	private Double price;
 	private String imgUrl;
 	
-	@Transient
+	@ManyToMany // Cria uma tabela com a associação de muitos para muitos entre a entidade product e category
+	@JoinTable(name = "tb_product_category", // nome da nova tabela a ser criada com a junção de produto com categoria
+	joinColumns = @JoinColumn(name = "produc_id"),// indica qual o nome da chave estrangeira referente a tabela de produtos (essa entidade)
+	inverseJoinColumns = @JoinColumn(name = "category_id"))// define qual a chave estrangeira da outra entidade (no caso a category)
 	private Set<Category> categories = new HashSet<>();
 	
 	public Product() {
