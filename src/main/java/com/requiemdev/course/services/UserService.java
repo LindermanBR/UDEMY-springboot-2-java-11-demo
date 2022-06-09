@@ -9,14 +9,13 @@ import org.springframework.stereotype.Service;
 import com.requiemdev.course.entities.User;
 import com.requiemdev.course.repositories.UserRepository;
 
-
 @Service
 public class UserService {
-	
+
 	@Autowired
 	private UserRepository repository;
 	
-	public List<User> findAll(){
+	public List<User> findAll() {
 		return repository.findAll();
 	}
 	
@@ -28,5 +27,8 @@ public class UserService {
 	public User insert(User obj) {
 		return repository.save(obj);
 	}
-
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
 }
